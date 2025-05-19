@@ -8,23 +8,23 @@ h1 .sub{display:block;font-size:0.95rem;margin-top:0.12rem}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:0.85rem 0 0.32rem}
 h2{font-size:1.04rem}
 
-/* --- section-edit (円) --- */
+/* section-edit 真円 */
 .section-edit{
   width:36px;height:36px;border-radius:50%;
   border:none;background:#ff9b9b;color:#fff;
   font-size:1.1rem;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;padding:0;line-height:0;
+  cursor:pointer;line-height:0;padding:0;
 }
 .section-edit:active{transform:scale(0.9)}
 
-/* --- food slots --- */
+/* food slots */
 .food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.28rem}
 .food-slot{position:relative;border:1.5px solid #444;border-radius:6px;height:86px;background:#fff}
 .food-slot .inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .food-slot img{max-width:66%;max-height:54%}
 .food-slot p{font-size:0.66rem;margin-top:2px;white-space:nowrap}
 
-/* roll button (大きめ) */
+/* roll button */
 .roll-btn{
   position:absolute;right:2px;bottom:2px;
   width:38px;height:38px;border-radius:50%;
@@ -33,7 +33,7 @@ h2{font-size:1.04rem}
 }
 .roll-btn:active{transform:scale(0.88)}
 
-/* --- skill grid --- */
+/* skill grid */
 .skill-grid{display:grid;grid-template-columns:62px 1fr;gap:0.24rem 0.28rem}
 .num-box{
   background:#d9e1ff;border:1.5px solid #444;border-radius:6px;
@@ -49,7 +49,7 @@ h2{font-size:1.04rem}
 .skill-slot.yellow{background:#fff6b2}
 .skill-slot.blue  {background:#cfe1ff}
 
-/* --- counter & main buttons --- */
+/* counter & main buttons */
 .counter-section{margin-top:0.8rem}
 .counter-section input{width:100%;padding:0.35rem;font-size:0.94rem;text-align:center;border:1.5px solid #444;border-radius:4px;background:#fff}
 .btn-row{margin-top:0.9rem;display:flex;gap:0.6rem}
@@ -57,7 +57,7 @@ button{flex:1;padding:0.48rem 0;border:none;border-radius:7px;font-size:0.95rem;
 button.pri{background:#6d9cff;color:#fff}
 button.sec{background:#e0e0e0}
 
-/* --- modal --- */
+/* modal */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:900}
 .modal.show{display:flex}
 .modal-content{background:#fff;width:92%;max-width:400px;border-radius:10px;padding:1rem;text-align:center}
