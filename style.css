@@ -8,24 +8,32 @@ h2{font-size:1.1rem;margin:1.1rem 0 0.4rem;}
 /* ===== 食材 ===== */
 .food-btn-row{display:flex;gap:0.4rem;margin-bottom:0.4rem;}
 .food-select{flex:1;padding:0.4rem 0;border:none;border-radius:10px;background:#d7deff;font-size:0.9rem;cursor:pointer;}
+
 .food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;}
-.food-slot{position:relative;border:2px solid #666;border-radius:6px;height:75px;background:#fff;display:flex;align-items:center;justify-content:center;}
-.food-slot img{max-width:80%;max-height:80%;object-fit:contain;}
-.roll-btn{position:absolute;right:3px;bottom:3px;width:26px;height:26px;border:none;border-radius:50%;background:#9bb6ff;color:#fff;font-size:0.9rem;cursor:pointer;}
+.food-slot{position:relative;border:2px solid #666;border-radius:6px;height:80px;background:#fff;}
+.food-slot .inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.food-slot img{max-width:52%;max-height:45%;object-fit:contain;}
+.food-slot p{font-size:0.65rem;margin-top:2px;white-space:nowrap;}
+
+.roll-btn{position:absolute;right:3px;bottom:3px;width:26px;height:26px;border:none;border-radius:50%;background:#fff url("img/seed_icon.png") center/85% no-repeat;cursor:pointer;border:1px solid #9bb6ff;}
 .roll-btn.sm{width:22px;height:22px;font-size:0.8rem;bottom:2px;right:2px;}
-.roll-btn:active{transform:scale(0.9);}
+
+.edit-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;border:none;border-radius:50%;background:#ff9b9b;color:#fff;font-size:0.78rem;cursor:pointer;}
+.edit-btn::before{content:"✎";}
 
 /* ===== サブスキル ===== */
 .skill-grid{display:grid;grid-template-columns:70px 1fr;gap:0.3rem 0.4rem;}
 .num-box{background:#cfd9f7;border:2px solid #666;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
-.skill-slot{position:relative;border:2px solid #000;border-radius:6px;height:50px;display:flex;align-items:center;padding-left:6px;font-size:0.9rem;background:#fff;}
-.skill-slot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 30px);}
-.skill-slot:nth-child(4),.skill-slot:nth-child(6){background:#ffec8a;} /* 見本の黄帯 */
-.skill-slot:nth-child(8){background:#b8d3ff;}               /* 見本の青帯 */
 
-/* ===== カウンタ & ボタン ===== */
+.skill-slot{position:relative;border:2px solid #000;border-radius:6px;height:50px;display:flex;align-items:center;padding-left:6px;font-size:0.9rem;background:#fff;transition:background 0.2s;}
+.skill-slot.yellow{background:#fff6b2;}
+.skill-slot.blue{background:#cfe1ff;}
+.skill-slot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 30px);}
+
+/* ===== カウンタ & 操作ボタン ===== */
 .counter-section{margin-top:1rem;}
 .counter-section input{width:100%;padding:0.4rem;font-size:1rem;text-align:center;border:2px solid #666;border-radius:4px;background:#fff;}
+
 .btn-row{margin-top:1rem;display:flex;gap:0.7rem;}
 button{flex:1;padding:0.55rem 0;border:none;border-radius:8px;font-size:0.95rem;cursor:pointer;}
 button.pri{background:#6d9cff;color:#fff;}
@@ -38,7 +46,7 @@ button.wide{width:100%;margin-top:0.8rem;}
 .modal-content{background:#fff;width:90%;max-width:380px;border-radius:10px;padding:1rem;text-align:center;}
 .option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;margin-top:0.8rem;max-height:320px;overflow-y:auto;}
 .option-btn{padding:0.55rem 0.2rem;background:#f4f4f4;border:1px solid #999;border-radius:6px;font-size:0.9rem;cursor:pointer;}
-.option-btn:active{background:#ddd;}
+.option-btn:disabled{opacity:0.35;cursor:not-allowed;}
 
 /* ===== トースト ===== */
 #toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.82);color:#fff;padding:0.6rem 1rem;border-radius:20px;font-size:0.9rem;transition:bottom 0.3s;z-index:999;}
@@ -46,7 +54,6 @@ button.wide{width:100%;margin-top:0.8rem;}
 
 @media(hover:hover){
   .food-select:hover{background:#c6ceff;}
-  .roll-btn:hover{background:#7ea1ff;}
-  .option-btn:hover{background:#e7e7e7;}
+  .option-btn:hover:not(:disabled){background:#e7e7e7;}
   button.pri:hover{background:#5b8dff;}
 }
