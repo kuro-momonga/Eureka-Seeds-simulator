@@ -125,4 +125,9 @@ document.getElementById("reset-btn").onclick=()=>{
   seedCount=0;seedCountEl.value=0;
 };
 
-document
+document.getElementById("share-btn").onclick=()=>{
+  const foods=foodImgs.map(i=>i.dataset.name||\"―\"),skills=skillSpans.map(s=>s.textContent||\"―\");
+  const text=`【ひらめきのたねシュミレーター】\\n回数:${seedCount}\\n\\n🧄食材\\n1:${foods[0]} 2:${foods[1]} 3:${foods[2]}\\n\\n🔧サブスキル\\n10:${skills[0]} 25:${skills[1]} 50:${skills[2]} 75:${skills[3]} 100:${skills[4]}\\n`;
+  if(navigator.share){navigator.share({title:\"ひらめきのたねシュミレーター\",text}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(text).then(()=>toastMsg(\"コピーしました！\"));}
+};
