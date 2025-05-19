@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ひらめきのたねシュミレーター</title>
+  <title>ひらめきのたねシュミレーター（ダークライ）</title>
+
+  <!-- M PLUS 1p heavy -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
 
-    <h1>理想のダークライ🌑を作ろう！</h1>
+    <h1>ひらめきのたねシュミレーター（ダークライ）</h1>
 
     <!-- ▽▽  食材  ▽▽ -->
     <section>
@@ -28,24 +33,24 @@
             <img src="" alt="" />
             <p></p>
           </div>
-          <button class="roll-btn" data-type="food" data-idx="0"></button>
-          <button class="edit-btn" data-idx="0"></button>
+          <button class="roll-btn"  data-type="food"  data-idx="0"></button>
+          <button class="edit-btn"  data-type="food"  data-idx="0"></button>
         </div>
         <div class="food-slot">
           <div class="inner">
             <img src="" alt="" />
             <p></p>
           </div>
-          <button class="roll-btn" data-type="food" data-idx="1"></button>
-          <button class="edit-btn" data-idx="1"></button>
+          <button class="roll-btn"  data-type="food"  data-idx="1"></button>
+          <button class="edit-btn"  data-type="food"  data-idx="1"></button>
         </div>
         <div class="food-slot">
           <div class="inner">
             <img src="" alt="" />
             <p></p>
           </div>
-          <button class="roll-btn" data-type="food" data-idx="2"></button>
-          <button class="edit-btn" data-idx="2"></button>
+          <button class="roll-btn"  data-type="food"  data-idx="2"></button>
+          <button class="edit-btn"  data-type="food"  data-idx="2"></button>
         </div>
       </div>
     </section>
@@ -54,35 +59,40 @@
     <section>
       <h2>サブスキル</h2>
       <div class="skill-grid">
-        <!-- 左：番号 / 右：スキル枠（5行） -->
+        <!-- 5 行 (番号 + スキル枠) -->
         <div class="num-box">10</div>
         <div class="skill-slot" data-idx="0">
           <span></span>
-          <button class="roll-btn sm" data-type="skill" data-idx="0"></button>
+          <button class="roll-btn sm"  data-type="skill" data-idx="0"></button>
+          <button class="edit-btn sm"  data-type="skill" data-idx="0"></button>
         </div>
 
         <div class="num-box">25</div>
         <div class="skill-slot" data-idx="1">
           <span></span>
-          <button class="roll-btn sm" data-type="skill" data-idx="1"></button>
+          <button class="roll-btn sm"  data-type="skill" data-idx="1"></button>
+          <button class="edit-btn sm"  data-type="skill" data-idx="1"></button>
         </div>
 
         <div class="num-box">50</div>
         <div class="skill-slot" data-idx="2">
           <span></span>
-          <button class="roll-btn sm" data-type="skill" data-idx="2"></button>
+          <button class="roll-btn sm"  data-type="skill" data-idx="2"></button>
+          <button class="edit-btn sm"  data-type="skill" data-idx="2"></button>
         </div>
 
         <div class="num-box">75</div>
         <div class="skill-slot" data-idx="3">
           <span></span>
-          <button class="roll-btn sm" data-type="skill" data-idx="3"></button>
+          <button class="roll-btn sm"  data-type="skill" data-idx="3"></button>
+          <button class="edit-btn sm"  data-type="skill" data-idx="3"></button>
         </div>
 
         <div class="num-box">100</div>
         <div class="skill-slot" data-idx="4">
           <span></span>
-          <button class="roll-btn sm" data-type="skill" data-idx="4"></button>
+          <button class="roll-btn sm"  data-type="skill" data-idx="4"></button>
+          <button class="edit-btn sm"  data-type="skill" data-idx="4"></button>
         </div>
       </div>
     </section>
@@ -100,10 +110,10 @@
     </div>
   </main>
 
-  <!-- ===== モーダル：食材手動選択 ===== -->
+  <!-- ===== モーダル：手動選択 ===== -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <h3 id="modal-title">食材を選択</h3>
+      <h3 id="modal-title"></h3>
       <div id="option-grid" class="option-grid"></div>
       <button id="close-modal" class="sec wide">キャンセル</button>
     </div>
