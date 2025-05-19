@@ -170,13 +170,13 @@ document.getElementById("reset-btn").onclick=()=>{
 document.getElementById("share-btn").onclick = async () => {
   const n = seedCount;
   const tweetText =
-`ひらめきのたねシュミレーター（ダークライ）でこんな個体ができました！
+`ひらめきのたねシミュレーター（ダークライ）でこんな個体ができました！
 たね使用回数は…${n}回！
 
-シュミレーターはこちら↓
+シミュレーターはこちら↓
 https://kuro-momonga.github.io/Eureka-Seeds-simulator/
 
-#ひらめきのたねシュミレーター`;
+#ひらめきのたねシミュレーター`;
 
   /* 1) ---- キャプチャ用に“写し身”を作る ---- */
   const original = document.querySelector("main");
