@@ -10,119 +10,121 @@ const FOODS = [
   { name:"めざましコーヒー",img:"img/めざましコーヒー.png" },
 ];
 
-const YELLOW_SKILLS = [
-  "睡眠EXPボーナス","おてつだいボーナス","げんき回復ボーナス","ゆめのかけらボーナス",
-  "リサーチEXPボーナス","きのみの数S","スキルレベルアップM"
+const YELLOW = [
+  "睡眠EXPボーナス","おてつだいボーナス","げんき回復ボーナス",
+  "ゆめのかけらボーナス","リサーチEXPボーナス","きのみの数S",
+  "スキルレベルアップM"
 ];
-const BLUE_SKILLS = [
-  "スキルレベルアップS","最大所持数アップL","最大所持数アップM","おてつだいスピードM",
-  "食材確率アップM","スキル確率アップM"
+const BLUE = [
+  "スキルレベルアップS","最大所持数アップL","最大所持数アップM",
+  "おてつだいスピードM","食材確率アップM","スキル確率アップM"
 ];
-const SKILLS = [...YELLOW_SKILLS, ...BLUE_SKILLS];
+const SKILLS = [...YELLOW, ...BLUE];
 
 /* ===== DOM ===== */
 const seedCountEl = document.getElementById("seed-count");
 const toast = document.getElementById("toast");
 const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
 const optionGrid = document.getElementById("option-grid");
 const closeModalBtn = document.getElementById("close-modal");
 
-let seedCount = 0;
-
-/* ===== 共通 ===== */
-function showToast(msg){
-  toast.textContent=msg; toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"),2500);
-}
-function incSeed(){ seedCount++; seedCountEl.value = seedCount; }
-
-/* ===== スロット取得ヘルパ ===== */
-const foodImgs = document.querySelectorAll(".food-slot img");
+const foodImgs  = document.querySelectorAll(".food-slot img");
 const foodNames = document.querySelectorAll(".food-slot p");
-const rollBtns  = document.querySelectorAll(".roll-btn");
-const editBtns  = document.querySelectorAll(".edit-btn");
 const skillSpans= document.querySelectorAll(".skill-slot span");
 const skillSlots= document.querySelectorAll(".skill-slot");
 
-/* ===== 抽選ロジック ===== */
-function randExcept(list, exceptSet){
-  let choice;
-  do{ choice=list[Math.floor(Math.random()*list.length)]; }while(exceptSet.has(choice));
-  return choice;
-}
+/* ===== 変数 ===== */
+let seedCount = 0;
+let currentType = "";   // "food" or "skill"
+let currentIdx  = 0;
 
-/* --- food reroll --- */
-rollBtns.forEach(btn=>{
+/* ===== 共通ヘルパ ===== */
+const showToast = msg =>{
+  toast.textContent=msg; toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),2500);
+};
+const randExcept = (list, exceptSet)=>{
+  let v; do{ v=list[Math.floor(Math.random()*list.length)]; }while(exceptSet.has(v));
+  return v;
+};
+const incSeed = ()=>{ seedCount++; seedCountEl.value=seedCount; };
+
+/* ===== ボタンイベント ===== */
+document.querySelectorAll(".roll-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
+    const type=btn.dataset.type;
     const idx = +btn.dataset.idx;
-    if(btn.dataset.type!=="food") return; // スキル用は別で処理
-    const prev = foodImgs[idx].dataset.name||"";
-    const choice = randExcept(FOODS.map(f=>f.name), new Set([prev]));
-    const obj = FOODS.find(f=>f.name===choice);
-    foodImgs[idx].src=obj.img; foodImgs[idx].dataset.name=obj.name;
-    foodNames[idx].textContent=obj.name;
+
+    if(type==="food"){
+      const prev = foodImgs[idx].dataset.name||"";
+      const choice = FOODS.find(f=>f.name===randExcept(FOODS.map(f=>f.name), new Set([prev])));
+      foodImgs[idx].src=choice.img; foodImgs[idx].dataset.name=choice.name;
+      foodNames[idx].textContent=choice.name;
+    }else{
+      const used = new Set([...skillSpans].map(s=>s.textContent)); // 重複禁止
+      const prev = skillSpans[idx].textContent;
+      used.delete(prev);
+      const choice = randExcept(SKILLS, used);
+      setSkill(idx, choice);
+    }
     incSeed();
   });
 });
 
-/* --- skill reroll & 背景色付与 / 重複禁止 --- */
-function applySkill(slotIdx, skillName){
-  skillSpans[slotIdx].textContent=skillName;
-  skillSlots[slotIdx].classList.toggle("yellow", YELLOW_SKILLS.includes(skillName));
-  skillSlots[slotIdx].classList.toggle("blue",   BLUE_SKILLS.includes(skillName));
-  skillSlots[slotIdx].classList.remove("yellow","blue"); // まず外してから再付与
-  if(YELLOW_SKILLS.includes(skillName)) skillSlots[slotIdx].classList.add("yellow");
-  else if(BLUE_SKILLS.includes(skillName)) skillSlots[slotIdx].classList.add("blue");
-}
-
-rollBtns.forEach(btn=>{
-  if(btn.dataset.type!=="skill") return;
+document.querySelectorAll(".edit-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    const idx = +btn.dataset.idx;
-    const used = new Set([...skillSpans].map(s=>s.textContent));
-    const prev = skillSpans[idx].textContent;
-    used.delete(prev); // その枠の現スキルは除外
-    const choice = randExcept(SKILLS, used);
-    applySkill(idx, choice);
-    incSeed();
+    currentType = btn.dataset.type;
+    currentIdx  = +btn.dataset.idx;
+    openModal();
   });
 });
 
-/* ===== 食材 手動選択 ===== */
-let currentFoodIdx=0;
-document.querySelectorAll(".food-select").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    currentFoodIdx=+btn.dataset.idx;
-    openFoodModal();
-  });
-});
-editBtns.forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    currentFoodIdx=+btn.dataset.idx;
-    openFoodModal();
-  });
-});
-function openFoodModal(){
+/* ===== モーダル ===== */
+const openModal = ()=>{
   optionGrid.innerHTML="";
-  FOODS.forEach(f=>{
-    const ob=document.createElement("button");
-    ob.className="option-btn";
-    ob.textContent=f.name;
-    ob.addEventListener("click",()=>{
-      foodImgs[currentFoodIdx].src=f.img;
-      foodImgs[currentFoodIdx].dataset.name=f.name;
-      foodNames[currentFoodIdx].textContent=f.name;
-      modal.classList.remove("show");
+  if(currentType==="food"){
+    modalTitle.textContent="食材を選択";
+    FOODS.forEach(f=>{
+      const b=document.createElement("button");
+      b.className="option-btn";
+      b.textContent=f.name;
+      b.addEventListener("click",()=>{
+        foodImgs[currentIdx].src=f.img;
+        foodImgs[currentIdx].dataset.name=f.name;
+        foodNames[currentIdx].textContent=f.name;
+        modal.classList.remove("show");
+      });
+      optionGrid.appendChild(b);
     });
-    optionGrid.appendChild(ob);
-  });
+  }else{
+    modalTitle.textContent="サブスキルを選択";
+    const used = new Set([...skillSpans].map(s=>s.textContent));
+    used.delete(skillSpans[currentIdx].textContent); // 自枠は除外
+    SKILLS.forEach(sk=>{
+      const b=document.createElement("button");
+      b.className="option-btn";
+      b.textContent=sk;
+      if(used.has(sk)) b.disabled=true;
+      b.addEventListener("click",()=>{
+        setSkill(currentIdx, sk);
+        modal.classList.remove("show");
+      });
+      optionGrid.appendChild(b);
+    });
+  }
   modal.classList.add("show");
-}
-function closeModal(){ modal.classList.remove("show"); }
-closeModalBtn.addEventListener("click",closeModal);
-modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
+};
+const setSkill = (idx,name)=>{
+  skillSpans[idx].textContent=name;
+  skillSlots[idx].classList.remove("yellow","blue");
+  if(YELLOW.includes(name)) skillSlots[idx].classList.add("yellow");
+  else if(BLUE.includes(name)) skillSlots[idx].classList.add("blue");
+};
+closeModalBtn.addEventListener("click",()=>modal.classList.remove("show"));
+modal.addEventListener("click",e=>{ if(e.target===modal) modal.classList.remove("show"); });
 
-/* ===== Reset & Share ===== */
+/* ===== リセット & シェア ===== */
 document.getElementById("reset-btn").addEventListener("click",()=>{
   foodImgs.forEach(i=>{ i.src=""; i.dataset.name=""; });
   foodNames.forEach(p=>p.textContent="");
