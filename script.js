@@ -31,17 +31,17 @@ const WHITE=[
 const SKILLS=[...YELLOW,...BLUE,...WHITE];   // 22 種
 
 /* ========== dom ========== */
-const seedCountEl = document.getElementById("seed-count");
-const toast        = document.getElementById("toast");
-const modal        = document.getElementById("modal");
-const slotTabs     = document.getElementById("slot-tabs");
-const optionGrid   = document.getElementById("option-grid");
-const closeModalBtn= document.getElementById("close-modal");
+const seedCountEl   = document.getElementById("seed-count");
+const toast         = document.getElementById("toast");
+const modal         = document.getElementById("modal");
+const slotTabs      = document.getElementById("slot-tabs");
+const optionGrid    = document.getElementById("option-grid");
+const closeModalBtn = document.getElementById("close-modal");
 
-const foodImgs  = [...document.querySelectorAll(".food-slot img")];
-const foodNames = [...document.querySelectorAll(".food-slot p")];
-const skillSpans= [...document.querySelectorAll(".skill-slot span")];
-const skillSlots= [...document.querySelectorAll(".skill-slot")];
+const foodImgs   = [...document.querySelectorAll(".food-slot img")];
+const foodNames  = [...document.querySelectorAll(".food-slot p")];
+const skillSpans = [...document.querySelectorAll(".skill-slot span")];
+const skillSlots = [...document.querySelectorAll(".skill-slot")];
 
 /* 手動選択フラグ */
 const foodManual  = [false,false,false];
@@ -62,6 +62,9 @@ const randExcept=(arr,ban)=>{
 };
 const incSeed = ()=>{seedCount++; seedCountEl.value=seedCount;};
 
+/* ✎ を取り除いた文字列を返す */
+const clean = str => str.replace(/\s*✎$/,"");
+
 /* ---------- 表示セット関数 ---------- */
 function setFood(idx,obj,manual){
   foodImgs[idx].src         = obj.img;
@@ -73,8 +76,9 @@ function setSkill(idx,name,manual){
   skillManual[idx]          = manual;
   skillSpans[idx].textContent = manual && name ? `${name} ✎` : name;
   skillSlots[idx].classList.remove("yellow","blue");
-  if(YELLOW.includes(name))      skillSlots[idx].classList.add("yellow");
-  else if(BLUE.includes(name))   skillSlots[idx].classList.add("blue");
+  const plain = clean(name);
+  if(YELLOW.includes(plain)) skillSlots[idx].classList.add("yellow");
+  else if(BLUE.includes(plain)) skillSlots[idx].classList.add("blue");
 }
 
 /* ========== roll buttons ========== */
@@ -89,9 +93,13 @@ document.querySelectorAll(".roll-btn").forEach(btn=>{
       setFood(idx,obj,false);              // manual = false
 
     }else{
-      const used=new Set(skillSpans.map(s=>s.textContent));
-      const prev=skillSpans[idx].textContent;used.delete(prev);
-      const next=randExcept([...SKILLS,""],used);   // 空文字も候補
+      /* ----- サブスキル抽選 ----- */
+      const used = new Set(
+        skillSpans.map(s=>clean(s.textContent)).filter(Boolean)
+      );
+      used.delete( clean(skillSpans[idx].textContent) );  // 自スロットは除外
+
+      const next = randExcept(SKILLS, used);              // “なし” を候補に入れない
       setSkill(idx,next,false);
     }
     incSeed();
@@ -138,8 +146,12 @@ function renderOptions(){
       optionGrid.appendChild(b);
     });
   }else{
-    const used=new Set(skillSpans.map(s=>s.textContent));
-    used.delete(skillSpans[currentIdx].textContent);
+    /* ----- サブスキル候補リスト ----- */
+    const used = new Set(
+      skillSpans.map(s=>clean(s.textContent)).filter(Boolean)
+    );
+    used.delete( clean(skillSpans[currentIdx].textContent) );
+
     [...SKILLS,""].forEach(sk=>{
       const b=document.createElement("button");
       b.className="option-btn";
@@ -155,7 +167,7 @@ function renderOptions(){
 closeModalBtn.onclick=()=>modal.classList.remove("show");
 modal.addEventListener("click",e=>{ if(e.target===modal) modal.classList.remove("show"); });
 
-/* ========== reset & share ========== */
+/* ========== reset ========== */
 document.getElementById("reset-btn").onclick=()=>{
   foodImgs.forEach(i=>{i.src="";i.dataset.name="";});
   foodNames.forEach(p=>p.textContent="");
@@ -165,6 +177,10 @@ document.getElementById("reset-btn").onclick=()=>{
   skillManual.fill(false);
   seedCount=0; seedCountEl.value=0;
 };
+
+/* ========== share (変更なし) ========== */
+/* ここ以降はあなたのファイルの share 関数と iOS ズーム対策をそのまま残してください */
+
 
 /* ========== share ========== */
 document.getElementById("share-btn").onclick = async () => {
