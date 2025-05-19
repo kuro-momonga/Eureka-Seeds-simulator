@@ -196,7 +196,10 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
   document.body.appendChild(clone);
 
   /* 2) ---- html2canvas で PNG 取得 ---- */
-  const canvas = await html2canvas(clone,{backgroundColor:"#fffaf0"});
+  const canvas = await html2canvas(clone,{
+  backgroundColor:"#fffaf0",
+  scale: window.devicePixelRatio   // ★ 追加
+});
   document.body.removeChild(clone);
 
   const blob = await new Promise(r => canvas.toBlob(r,"image/png"));
