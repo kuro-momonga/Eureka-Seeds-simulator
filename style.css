@@ -119,4 +119,11 @@ h1 .sub{
 .food-slot img{
   max-width:74%;                   /* 画像を拡大（66% → 74%） */
   max-height:58%;
+
+
+
+/* 既存の style.css の先頭か末尾に追加 */
+html, body {
+  touch-action: manipulation;   /* ダブルタップの 300 ms 判定を無効化 */
 }
+
