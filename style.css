@@ -8,14 +8,26 @@ h1 .sub{display:block;font-size:0.95rem;margin-top:0.12rem}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:0.85rem 0 0.32rem}
 h2{font-size:1.04rem}
 
-/* section-edit 真円 */
+/* --- section-edit (真円) --- */
 .section-edit{
-  width:36px;height:36px;border-radius:50%;
-  border:none;background:#ff9b9b;color:#fff;
-  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;line-height:0;padding:0;
+  /* ↓ Safari でも確実に効くよう width / height に戻す */
+  width:36px;
+  height:36px;
+  flex:0 0 36px;      /* ← 伸縮しない固定幅にする */
+  border-radius:50%;
+  border:none;
+  background:#ff9b9b;
+  color:#fff;
+  font-size:1.1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  padding:0;
+  line-height:0;
 }
-.section-edit:active{transform:scale(0.9)}
+.section-edit:active{transform:scale(0.9);}
+
 
 /* food slots */
 .food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.28rem}
