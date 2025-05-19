@@ -9,7 +9,15 @@ const FOODS=[
   {name:"ワカクサコーン",img:"img/ワカクサコーン.png"},
   {name:"めざましコーヒー",img:"img/めざましコーヒー.png"}
 ];
-
+/* ▼▼ ここを追加 ▼▼ */
+function preloadImages(){
+  FOODS.forEach(f=>{
+    const img = new Image();
+    img.src = f.img;   // ブラウザのキャッシュに載せる
+  });
+}
+preloadImages();       // スクリプト読み込み時に実行
+/* ▲▲ 追加ここまで ▲▲ */
 const YELLOW=[
   "睡眠EXPボーナス","おてつだいボーナス","げんき回復ボーナス",
   "ゆめのかけらボーナス","リサーチEXPボーナス","きのみの数S",
