@@ -167,7 +167,7 @@ document.getElementById("reset-btn").onclick=()=>{
 };
 
 /* ========== share ========== */
-document.getElementById("share-btn").onclick = async () =>{
+document.getElementById("share-btn").onclick = async () => {
   const n = seedCount;
   const tweetText =
 `ひらめきのたねシュミレーター（ダークライ）でこんな個体ができました！
@@ -178,32 +178,50 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
 
 #ひらめきのたねシュミレーター`;
 
-  /* 1) 画面を PNG にする */
-  const canvas = await html2canvas(document.querySelector("main"));
-  const blob   = await new Promise(r => canvas.toBlob(r, "image/png"));
-  const file   = new File([blob],"eureka.png",{type:"image/png"});
+  /* 1) ---- キャプチャ用に“写し身”を作る ---- */
+  const original = document.querySelector("main");
+  const clone    = original.cloneNode(true);
 
-  /* 2) Web Share が画像対応ならそのまま */
-  if (navigator.canShare && navigator.canShare({ files:[file] })){
+  /* ボタン行を非表示 */
+  const btnRow = clone.querySelector(".btn-row");
+  if(btnRow) btnRow.style.display = "none";
+
+  /* 余白 & 背景を付与 */
+  clone.style.padding   = "24px 0";
+  clone.style.background= "#fffaf0";
+
+  /* 画面外に置いてから撮影 */
+  clone.style.position = "fixed";
+  clone.style.left = "-9999px";
+  document.body.appendChild(clone);
+
+  /* 2) ---- html2canvas で PNG 取得 ---- */
+  const canvas = await html2canvas(clone,{backgroundColor:"#fffaf0"});
+  document.body.removeChild(clone);
+
+  const blob = await new Promise(r => canvas.toBlob(r,"image/png"));
+  const file = new File([blob],"eureka.png",{type:"image/png"});
+
+  /* 3) ---- 共有フロー ---- */
+  if(navigator.canShare && navigator.canShare({files:[file]})){
     try{
-      await navigator.share({files:[file], text:tweetText});
+      await navigator.share({files:[file],text:tweetText});
       return;
-    }catch(e){/* ユーザーキャンセル時は何もしない */}
+    }catch(e){ /* cancel → fallback */ }
   }
 
-  /* 3) 非対応ブラウザ: 画像をダウンロードしてツイート画面を開く */
+  /* fallback: PNG を保存 & ツイート本文だけ開く */
   const url = URL.createObjectURL(blob);
   const a   = document.createElement("a");
-  a.href = url; a.download = "eureka_seeds.png";
-  a.click();                                 // 自動 DL
+  a.href=url; a.download="eureka_seeds.png"; a.click();
   URL.revokeObjectURL(url);
 
-  /* X の WebIntent に本文だけ流し込む */
-  const tweetURL = "https://twitter.com/intent/tweet?text="
-                 + encodeURIComponent(tweetText);
-  window.open(tweetURL,"_blank");
-
+  window.open(
+    "https://twitter.com/intent/tweet?text="+encodeURIComponent(tweetText),
+    "_blank"
+  );
 };
+
 
   
 /* ---- iOS Safari 用：ピンチ＆ダブルタップ拡大を強制無効 ---- */
