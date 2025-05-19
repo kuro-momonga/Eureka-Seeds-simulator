@@ -203,7 +203,9 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
                  + encodeURIComponent(tweetText);
   window.open(tweetURL,"_blank");
 
+};
 
+  
 /* ---- iOS Safari 用：ピンチ＆ダブルタップ拡大を強制無効 ---- */
 (() => {
   let lastTouchEnd = 0;
@@ -220,4 +222,3 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
 })();
 
   
-};
