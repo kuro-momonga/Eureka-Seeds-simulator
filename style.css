@@ -1,34 +1,36 @@
 /* ===== ベース ===== */
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Helvetica Neue","YuGothic",sans-serif;}
-body{background:#d6cdea;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"M PLUS 1p",sans-serif;}
+body{background:#d6cdea;color:#000;}
 .container{max-width:480px;margin:0 auto;padding:1rem;}
 h1{font-size:1.25rem;text-align:center;margin-bottom:0.6rem;}
 h2{font-size:1.1rem;margin:1.1rem 0 0.4rem;}
 
 /* ===== 食材 ===== */
 .food-btn-row{display:flex;gap:0.4rem;margin-bottom:0.4rem;}
-.food-select{flex:1;padding:0.4rem 0;border:none;border-radius:10px;background:#d7deff;font-size:0.9rem;cursor:pointer;}
+.food-select{flex:1;padding:0.38rem 0;border:none;border-radius:10px;background:#d7deff;font-size:0.9rem;cursor:pointer;}
 
 .food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;}
-.food-slot{position:relative;border:2px solid #666;border-radius:6px;height:80px;background:#fff;}
+.food-slot{position:relative;border:2px solid #666;border-radius:6px;height:90px;background:#fff;}
 .food-slot .inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.food-slot img{max-width:52%;max-height:45%;object-fit:contain;}
-.food-slot p{font-size:0.65rem;margin-top:2px;white-space:nowrap;}
+.food-slot img{max-width:60%;max-height:48%;object-fit:contain;}
+.food-slot p{font-size:0.68rem;margin-top:2px;white-space:nowrap;}
 
-.roll-btn{position:absolute;right:3px;bottom:3px;width:26px;height:26px;border:none;border-radius:50%;background:#fff url("img/seed_icon.png") center/85% no-repeat;cursor:pointer;border:1px solid #9bb6ff;}
-.roll-btn.sm{width:22px;height:22px;font-size:0.8rem;bottom:2px;right:2px;}
-
-.edit-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;border:none;border-radius:50%;background:#ff9b9b;color:#fff;font-size:0.78rem;cursor:pointer;}
-.edit-btn::before{content:"✎";}
+/* ===== 共通ボタン（抽選・編集） ===== */
+.roll-btn,.edit-btn{position:absolute;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;cursor:pointer;}
+.roll-btn{right:3px;bottom:3px;width:26px;height:26px;background:#fff url("img/seed_icon.png") center/80% no-repeat;border:1px solid #9bb6ff;}
+.roll-btn.sm{width:22px;height:22px;}
+.edit-btn{right:3px;top:3px;width:24px;height:24px;background:#ff9b9b;}
+.edit-btn::before{content:"✎";color:#fff;font-size:0.8rem;}
+.edit-btn.sm{width:20px;height:20px;font-size:0.7rem;}
 
 /* ===== サブスキル ===== */
 .skill-grid{display:grid;grid-template-columns:70px 1fr;gap:0.3rem 0.4rem;}
-.num-box{background:#cfd9f7;border:2px solid #666;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.num-box{background:#cfd9f7;border:2px solid #666;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.9rem;}
 
 .skill-slot{position:relative;border:2px solid #000;border-radius:6px;height:50px;display:flex;align-items:center;padding-left:6px;font-size:0.9rem;background:#fff;transition:background 0.2s;}
 .skill-slot.yellow{background:#fff6b2;}
 .skill-slot.blue{background:#cfe1ff;}
-.skill-slot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 30px);}
+.skill-slot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 42px);} /* 42 = 2btn幅 */
 
 /* ===== カウンタ & 操作ボタン ===== */
 .counter-section{margin-top:1rem;}
