@@ -1,1 +1,49 @@
+/* ===== ベース ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Helvetica Neue","YuGothic",sans-serif; }
+body { background: #d6cdea; }
 
+/* コンテナ */
+.container { max-width: 420px; margin: 0 auto; padding: 0.8rem; }
+h1 { font-size: 1.25rem; text-align: center; margin-bottom: 0.5rem; }
+h2 { margin: 0.8rem 0 0.3rem; font-size: 1.1rem; }
+
+/* スロット */
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(90px,1fr)); gap: 0.4rem; }
+.slot { position: relative; background:#fff; border:2px solid #666; border-radius:6px; height:70px; display:flex; align-items:center; justify-content:center; padding:0.2rem; font-size:0.78rem; text-align:center; }
+.slot.skill { height:80px; }
+
+/* スロット内ボタン */
+.roll-btn,.edit-btn { position:absolute; width:26px;height:26px;border:none;border-radius:50%;color:#fff;font-size:0.9rem;cursor:pointer; }
+.roll-btn { bottom:2px; right:2px; background:#9bb6ff; }
+.edit-btn { top:2px; right:2px; background:#ff9b9b; }
+.roll-btn:active,.edit-btn:active{ transform:scale(0.93); }
+
+/* カウンター */
+.counter-section{ margin-top:0.8rem; }
+.counter-section input{ width:100%; padding:0.4rem; font-size:1rem; text-align:center; border:2px solid #666; border-radius:4px; background:#fff; }
+
+/* 操作ボタン */
+.btn-row{ margin-top:0.8rem; display:flex; gap:0.6rem; }
+button{ flex:1; padding:0.55rem 0.3rem; font-size:0.95rem; border:none; border-radius:6px; cursor:pointer; }
+button.pri{ background:#6d9cff; color:#fff; }
+button.sec{ background:#e0e0e0; }
+button.wide{ width:100%; margin-top:0.7rem; }
+
+/* モーダル */
+.modal{ position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:900; }
+.modal.show{ display:flex; }
+.modal-content{ background:#fff; width:90%; max-width:360px; border-radius:8px; padding:1rem; text-align:center; }
+.option-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0.5rem; margin-top:0.8rem; max-height:320px; overflow-y:auto; }
+.option-btn{ padding:0.6rem 0.2rem; background:#f4f4f4; border:1px solid #888; border-radius:6px; font-size:0.85rem; cursor:pointer; }
+.option-btn:active{ background:#e0e0e0; }
+
+/* トースト */
+#toast{ position:fixed; bottom:-100px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.82); color:#fff; padding:0.6rem 1rem; border-radius:20px; font-size:0.9rem; transition:bottom 0.3s; z-index:999; pointer-events:none; }
+#toast.show{ bottom:80px; }
+
+@media(hover:hover){
+  .roll-btn:hover{ background:#799eff; }
+  .edit-btn:hover{ background:#ff7f7f; }
+  button.pri:hover{ background:#5b8dff; }
+  button.sec:hover{ background:#d3d3d3; }
+}
