@@ -91,3 +91,32 @@ button.sec{background:#e0e0e0}
   top:50%;                   /* 高さ中央 */
   transform:translateY(-50%);
 }
+
+
+
+
+
+
+
+
+/* ① ─ タイトル下に余白 */
+h1 .sub{
+  display:block;
+  font-size:0.95rem;
+  margin:0.12rem 0 0.8rem;   /* ← 下に 1 行分 (約 0.8rem) の余白 */
+}
+
+/* ② + ③ ─ 食材名を上・サイズアップ、画像も少し拡大 */
+.food-slot .inner{
+  flex-direction:column-reverse;   /* テキスト → 画像 の順に表示 */
+}
+
+.food-slot p{
+  font-size:0.8rem;                /* 文字を大きく */
+  margin:0 0 2px;                  /* 下余白のみ少し */
+}
+
+.food-slot img{
+  max-width:74%;                   /* 画像を拡大（66% → 74%） */
+  max-height:58%;
+}
