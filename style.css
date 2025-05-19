@@ -122,8 +122,7 @@ h1 .sub{
 
 
 
-/* 既存の style.css の先頭か末尾に追加 */
-html, body {
-  touch-action: manipulation;   /* ダブルタップの 300 ms 判定を無効化 */
+html, body, button, a, input {
+  touch-action: manipulation;   /* ダブルタップ拡大を禁止 */
 }
 
