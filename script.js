@@ -202,4 +202,22 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
   const tweetURL = "https://twitter.com/intent/tweet?text="
                  + encodeURIComponent(tweetText);
   window.open(tweetURL,"_blank");
+
+
+/* ---- iOS Safari 用：ピンチ＆ダブルタップ拡大を強制無効 ---- */
+(() => {
+  let lastTouchEnd = 0;
+
+  document.addEventListener('gesturestart', e => e.preventDefault(), {passive:false});
+  document.addEventListener('gesturechange',e => e.preventDefault(), {passive:false});
+  document.addEventListener('gestureend',   e => e.preventDefault(), {passive:false});
+
+  document.addEventListener('touchend', e => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 350) e.preventDefault();  // ダブルタップ判定
+    lastTouchEnd = now;
+  }, {passive:false});
+})();
+
+  
 };
