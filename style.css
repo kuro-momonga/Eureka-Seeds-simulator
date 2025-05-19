@@ -1,61 +1,58 @@
-/* ===== ベース ===== */
+/* ========== base ========== */
+html{font-size:92%;}
 *{box-sizing:border-box;margin:0;padding:0;font-family:"M PLUS 1p",sans-serif;}
-body{background:#d6cdea;color:#000;}
-.container{max-width:480px;margin:0 auto;padding:1rem;}
-h1{font-size:1.25rem;text-align:center;margin-bottom:0.6rem;}
-h2{font-size:1.1rem;margin:1.1rem 0 0.4rem;}
+body{background:#fff;color:#000;}
+.container{max-width:480px;margin:0 auto;padding:0.6rem;}
+h1{font-size:1.2rem;text-align:center;line-height:1.3;}
+h1 .sub{display:block;font-size:0.95rem;margin-top:0.15rem;}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:1rem 0 0.4rem;}
+h2{font-size:1.05rem;}
 
-/* ===== 食材 ===== */
-.food-btn-row{display:flex;gap:0.4rem;margin-bottom:0.4rem;}
-.food-select{flex:1;padding:0.38rem 0;border:none;border-radius:10px;background:#d7deff;font-size:0.9rem;cursor:pointer;}
+/* section‑level edit */
+.section-edit{width:32px;height:32px;border:none;border-radius:50%;background:#ff9b9b;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.section-edit:active{transform:scale(0.92);}
 
-.food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;}
-.food-slot{position:relative;border:2px solid #666;border-radius:6px;height:90px;background:#fff;}
+/* food slots */
+.food-slot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.3rem;}
+.food-slot{position:relative;border:1.5px solid #444;border-radius:6px;height:82px;background:#fff;}
 .food-slot .inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.food-slot img{max-width:60%;max-height:48%;object-fit:contain;}
-.food-slot p{font-size:0.68rem;margin-top:2px;white-space:nowrap;}
+.food-slot img{max-width:64%;max-height:52%;}
+.food-slot p{font-size:0.65rem;margin-top:2px;white-space:nowrap;}
 
-/* ===== 共通ボタン（抽選・編集） ===== */
-.roll-btn,.edit-btn{position:absolute;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;cursor:pointer;}
-.roll-btn{right:3px;bottom:3px;width:26px;height:26px;background:#fff url("img/seed_icon.png") center/80% no-repeat;border:1px solid #9bb6ff;}
-.roll-btn.sm{width:22px;height:22px;}
-.edit-btn{right:3px;top:3px;width:24px;height:24px;background:#ff9b9b;}
-.edit-btn::before{content:"✎";color:#fff;font-size:0.8rem;}
-.edit-btn.sm{width:20px;height:20px;font-size:0.7rem;}
+/* roll btn */
+.roll-btn{position:absolute;right:2px;bottom:2px;width:32px;height:32px;border:1.5px solid #6d9cff;border-radius:50%;background:#fff url("img/seed_icon.png") center/80% no-repeat;cursor:pointer;}
+.roll-btn:active{transform:scale(0.9);}
 
-/* ===== サブスキル ===== */
-.skill-grid{display:grid;grid-template-columns:70px 1fr;gap:0.3rem 0.4rem;}
-.num-box{background:#cfd9f7;border:2px solid #666;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.9rem;}
-
-.skill-slot{position:relative;border:2px solid #000;border-radius:6px;height:50px;display:flex;align-items:center;padding-left:6px;font-size:0.9rem;background:#fff;transition:background 0.2s;}
+/* skill grid */
+.skill-grid{display:grid;grid-template-columns:64px 1fr;gap:0.25rem 0.3rem;}
+.num-box{background:#d9e1ff;border:1.5px solid #444;border-radius:6px;height:46px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.skill-slot{position:relative;border:1.5px solid #000;border-radius:6px;height:46px;display:flex;align-items:center;padding-left:6px;}
+.skill-slot span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:38px;}
 .skill-slot.yellow{background:#fff6b2;}
 .skill-slot.blue{background:#cfe1ff;}
-.skill-slot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 42px);} /* 42 = 2btn幅 */
 
-/* ===== カウンタ & 操作ボタン ===== */
-.counter-section{margin-top:1rem;}
-.counter-section input{width:100%;padding:0.4rem;font-size:1rem;text-align:center;border:2px solid #666;border-radius:4px;background:#fff;}
-
-.btn-row{margin-top:1rem;display:flex;gap:0.7rem;}
-button{flex:1;padding:0.55rem 0;border:none;border-radius:8px;font-size:0.95rem;cursor:pointer;}
+/* counter & buttons */
+.counter-section{margin-top:0.8rem;}
+.counter-section input{width:100%;padding:0.35rem;font-size:0.95rem;text-align:center;border:1.5px solid #444;border-radius:4px;}
+.btn-row{margin-top:0.9rem;display:flex;gap:0.6rem;}
+button{flex:1;padding:0.48rem 0;border:none;border-radius:7px;font-size:0.95rem;cursor:pointer;}
 button.pri{background:#6d9cff;color:#fff;}
 button.sec{background:#e0e0e0;}
-button.wide{width:100%;margin-top:0.8rem;}
+button.wide{width:100%;margin-top:0.7rem;}
 
-/* ===== モーダル ===== */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:900;}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:900;}
 .modal.show{display:flex;}
-.modal-content{background:#fff;width:90%;max-width:380px;border-radius:10px;padding:1rem;text-align:center;}
-.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;margin-top:0.8rem;max-height:320px;overflow-y:auto;}
-.option-btn{padding:0.55rem 0.2rem;background:#f4f4f4;border:1px solid #999;border-radius:6px;font-size:0.9rem;cursor:pointer;}
+.modal-content{background:#fff;width:92%;max-width:400px;border-radius:10px;padding:1rem;text-align:center;}
+.slot-tabs{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;}
+.slot-tab-btn{padding:0.35rem 0.6rem;border:1px solid #888;border-radius:5px;cursor:pointer;background:#f0f0f0;font-size:0.85rem;}
+.slot-tab-btn.active{background:#9bb6ff;color:#fff;border-color:#6d9cff;}
+.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.55rem;margin-top:0.8rem;max-height:320px;overflow-y:auto;}
+.option-btn{padding:0.55rem 0.2rem;border:1px solid #999;border-radius:6px;font-size:0.9rem;background:#f4f4f4;cursor:pointer;}
+.option-btn.yellow{background:#fff6b2;}
+.option-btn.blue{background:#cfe1ff;}
 .option-btn:disabled{opacity:0.35;cursor:not-allowed;}
 
-/* ===== トースト ===== */
-#toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.82);color:#fff;padding:0.6rem 1rem;border-radius:20px;font-size:0.9rem;transition:bottom 0.3s;z-index:999;}
-#toast.show{bottom:80px;}
-
-@media(hover:hover){
-  .food-select:hover{background:#c6ceff;}
-  .option-btn:hover:not(:disabled){background:#e7e7e7;}
-  button.pri:hover{background:#5b8dff;}
-}
+/* toast */
+#toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.83);color:#fff;padding:0.55rem 1rem;border-radius:20px;font-size:0.9rem;transition:bottom 0.3s;z-index:999;}
+#toast.show{bottom:78px;}
