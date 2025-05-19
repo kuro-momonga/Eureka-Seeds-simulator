@@ -203,5 +203,3 @@ https://kurosuramatpagi.github.io/Eureka-Seeds-simulator/
                  + encodeURIComponent(tweetText);
   window.open(tweetURL,"_blank");
 };
-
-};
