@@ -126,3 +126,19 @@ html, body, button, a, input {
   touch-action: manipulation;   /* ダブルタップ拡大を禁止 */
 }
 
+/* ① ─ 抽選 ↻ ボタン：当たり判定を +8px 四方広げる  */
+.roll-btn::before{
+  content:"";
+  position:absolute;
+  inset:-4px;          /* 四方向に 4px 拡張（合計 +8px）*/
+  border-radius:50%;
+  /* 透過にすると見た目は変わらずヒットエリアだけ拡大 */
+}
+
+/* ② ─ モーダルの「キャンセル」ボタンを下げ、幅を内容にフィット */
+#close-modal{
+  margin-top:1.2rem;   /* 旧 0.7rem → 少し下へ */
+  display:inline-block;/* 内容幅で自動フィット */
+  padding:0.48rem 1.2rem;
+}
+
