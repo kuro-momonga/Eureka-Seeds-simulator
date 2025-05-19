@@ -166,23 +166,42 @@ document.getElementById("reset-btn").onclick=()=>{
   seedCount=0; seedCountEl.value=0;
 };
 
-document.getElementById("share-btn").onclick=()=>{
-  const f=foodImgs.map(i=>i.dataset.name||"―");
-  const s=skillSpans.map(t=>t.textContent||"―");
-  const txt=
-`【ひらめきのたねシュミレーター】
-回数:${seedCount}
+/* ========== share ========== */
+document.getElementById("share-btn").onclick = async () =>{
+  const n = seedCount;
+  const tweetText =
+`ひらめきのたねシュミレーター（ダークライ）でこんな個体ができました！
+たね使用回数は…${n}回！
 
-🧄食材
-1:${f[0]} 2:${f[1]} 3:${f[2]}
+シュミレーターはこちら↓
+https://kurosuramatpagi.github.io/Eureka-Seeds-simulator/
 
-🔧サブスキル
-10:${s[0]} 25:${s[1]} 50:${s[2]}
-75:${s[3]} 100:${s[4]}
-`;
-  if(navigator.share){
-    navigator.share({title:"ひらめきのたねシュミレーター",text:txt}).catch(()=>{});
-  }else{
-    navigator.clipboard?.writeText(txt).then(()=>showToast("コピーしました！"));
+#ひらめきのたねシュミレーター`;
+
+  /* 1) 画面を PNG にする */
+  const canvas = await html2canvas(document.querySelector("main"));
+  const blob   = await new Promise(r => canvas.toBlob(r, "image/png"));
+  const file   = new File([blob],"eureka.png",{type:"image/png"});
+
+  /* 2) Web Share が画像対応ならそのまま */
+  if (navigator.canShare && navigator.canShare({ files:[file] })){
+    try{
+      await navigator.share({files:[file], text:tweetText});
+      return;
+    }catch(e){/* ユーザーキャンセル時は何もしない */}
   }
+
+  /* 3) 非対応ブラウザ: 画像をダウンロードしてツイート画面を開く */
+  const url = URL.createObjectURL(blob);
+  const a   = document.createElement("a");
+  a.href = url; a.download = "eureka_seeds.png";
+  a.click();                                 // 自動 DL
+  URL.revokeObjectURL(url);
+
+  /* X の WebIntent に本文だけ流し込む */
+  const tweetURL = "https://twitter.com/intent/tweet?text="
+                 + encodeURIComponent(tweetText);
+  window.open(tweetURL,"_blank");
+};
+
 };
