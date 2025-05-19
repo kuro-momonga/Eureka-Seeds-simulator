@@ -2,43 +2,97 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ひらめきのたねシュミレーター</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
+
     <h1>理想のダークライ🌑を作ろう！</h1>
 
-    <!-- 食材スロット -->
+    <!-- ▽▽  食材  ▽▽ -->
     <section>
       <h2>食材</h2>
-      <div id="food-slots" class="slot-grid"></div>
+
+      <!-- 上段：選択ボタン -->
+      <div class="food-btn-row">
+        <button class="food-select" data-idx="0">第1食材</button>
+        <button class="food-select" data-idx="1">第2食材</button>
+        <button class="food-select" data-idx="2">第3食材</button>
+      </div>
+
+      <!-- 下段：アイコン + reroll -->
+      <div class="food-slot-row">
+        <div class="food-slot">
+          <img src="" alt="" />
+          <button class="roll-btn" data-type="food" data-idx="0">↻</button>
+        </div>
+        <div class="food-slot">
+          <img src="" alt="" />
+          <button class="roll-btn" data-type="food" data-idx="1">↻</button>
+        </div>
+        <div class="food-slot">
+          <img src="" alt="" />
+          <button class="roll-btn" data-type="food" data-idx="2">↻</button>
+        </div>
+      </div>
     </section>
 
-    <!-- サブスキル -->
+    <!-- ▽▽  サブスキル  ▽▽ -->
     <section>
       <h2>サブスキル</h2>
-      <div id="skill-slots" class="slot-grid skill"></div>
+      <div class="skill-grid">
+        <!-- 左：番号 / 右：スキル枠 -->
+        <div class="num-box">10</div>
+        <div class="skill-slot" data-idx="0">
+          <span></span>
+          <button class="roll-btn sm" data-type="skill" data-idx="0">↻</button>
+        </div>
+
+        <div class="num-box">25</div>
+        <div class="skill-slot" data-idx="1">
+          <span></span>
+          <button class="roll-btn sm" data-type="skill" data-idx="1">↻</button>
+        </div>
+
+        <div class="num-box">50</div>
+        <div class="skill-slot" data-idx="2">
+          <span></span>
+          <button class="roll-btn sm" data-type="skill" data-idx="2">↻</button>
+        </div>
+
+        <div class="num-box">75</div>
+        <div class="skill-slot" data-idx="3">
+          <span></span>
+          <button class="roll-btn sm" data-type="skill" data-idx="3">↻</button>
+        </div>
+
+        <div class="num-box">100</div>
+        <div class="skill-slot" data-idx="4">
+          <span></span>
+          <button class="roll-btn sm" data-type="skill" data-idx="4">↻</button>
+        </div>
+      </div>
     </section>
 
-    <!-- カウンター -->
+    <!-- ▽▽  カウンタ  ▽▽ -->
     <section class="counter-section">
       <label>ひらめきのたね使用回数</label>
       <input id="seed-count" type="text" value="0" readonly />
     </section>
 
-    <!-- ボタン -->
+    <!-- ▽▽  ボタン  ▽▽ -->
     <div class="btn-row">
       <button id="reset-btn" class="sec">リセット</button>
       <button id="share-btn" class="pri">シェア</button>
     </div>
   </main>
 
-  <!-- モーダル：手動選択 -->
+  <!-- ===== モーダル：手動選択 ===== -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <h3 id="modal-title">選択してください</h3>
+      <h3 id="modal-title">食材を選択</h3>
       <div id="option-grid" class="option-grid"></div>
       <button id="close-modal" class="sec wide">キャンセル</button>
     </div>
@@ -50,3 +104,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
