@@ -187,7 +187,7 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
   if(btnRow) btnRow.style.display = "none";
 
   /* 余白 & 背景を付与 */
-  clone.style.padding   = "24px 0";
+  clone.style.padding   = "48px 24px";
   clone.style.background= "#fffaf0";
 
   /* 画面外に置いてから撮影 */
