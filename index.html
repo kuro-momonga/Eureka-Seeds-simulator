@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ひらめきのたねシュミレーター</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>理想のダークライ🌑を作ろう！</h1>
 
+    <!-- 食材スロット -->
+    <section>
+      <h2>食材</h2>
+      <div id="food-slots" class="slot-grid"></div>
+    </section>
+
+    <!-- サブスキル -->
+    <section>
+      <h2>サブスキル</h2>
+      <div id="skill-slots" class="slot-grid skill"></div>
+    </section>
+
+    <!-- カウンター -->
+    <section class="counter-section">
+      <label>ひらめきのたね使用回数</label>
+      <input id="seed-count" type="text" value="0" readonly />
+    </section>
+
+    <!-- ボタン -->
+    <div class="btn-row">
+      <button id="reset-btn" class="sec">リセット</button>
+      <button id="share-btn" class="pri">シェア</button>
+    </div>
+  </main>
+
+  <!-- モーダル：手動選択 -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3 id="modal-title">選択してください</h3>
+      <div id="option-grid" class="option-grid"></div>
+      <button id="close-modal" class="sec wide">キャンセル</button>
+    </div>
+  </div>
+
+  <!-- トースト -->
+  <div id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
