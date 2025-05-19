@@ -1,5 +1,4 @@
 /* ===== データ ===== */
-/* 画像は /img/ に同名 PNG を置く前提 */
 const FOODS = [
   { name:"マメミート",      img:"img/マメミート.png" },
   { name:"とくせんリンゴ",  img:"img/とくせんリンゴ.png" },
@@ -11,50 +10,81 @@ const FOODS = [
   { name:"めざましコーヒー",img:"img/めざましコーヒー.png" },
 ];
 
-const SKILLS = [
+const YELLOW_SKILLS = [
   "睡眠EXPボーナス","おてつだいボーナス","げんき回復ボーナス","ゆめのかけらボーナス",
-  "リサーチEXPボーナス","きのみの数S","スキルレベルアップM","スキルレベルアップS",
-  "最大所持数アップL","最大所持数アップM","おてつだいスピードM","食材確率アップM",
-  "スキル確率アップM","最大所持数アップS","おてつだいスピードS","食材確率アップS",
-  "スキル確率アップS",
+  "リサーチEXPボーナス","きのみの数S","スキルレベルアップM"
 ];
+const BLUE_SKILLS = [
+  "スキルレベルアップS","最大所持数アップL","最大所持数アップM","おてつだいスピードM",
+  "食材確率アップM","スキル確率アップM"
+];
+const SKILLS = [...YELLOW_SKILLS, ...BLUE_SKILLS];
 
 /* ===== DOM ===== */
 const seedCountEl = document.getElementById("seed-count");
 const toast = document.getElementById("toast");
 const modal = document.getElementById("modal");
 const optionGrid = document.getElementById("option-grid");
-const modalTitle = document.getElementById("modal-title");
 const closeModalBtn = document.getElementById("close-modal");
 
 let seedCount = 0;
 
-/* ===== ヘルパ ===== */
+/* ===== 共通 ===== */
 function showToast(msg){
   toast.textContent=msg; toast.classList.add("show");
   setTimeout(()=>toast.classList.remove("show"),2500);
 }
-function incrementSeed(){ seedCount++; seedCountEl.value = seedCount; }
+function incSeed(){ seedCount++; seedCountEl.value = seedCount; }
 
-/* ===== Reroll ===== */
-document.querySelectorAll(".roll-btn").forEach(btn=>{
+/* ===== スロット取得ヘルパ ===== */
+const foodImgs = document.querySelectorAll(".food-slot img");
+const foodNames = document.querySelectorAll(".food-slot p");
+const rollBtns  = document.querySelectorAll(".roll-btn");
+const editBtns  = document.querySelectorAll(".edit-btn");
+const skillSpans= document.querySelectorAll(".skill-slot span");
+const skillSlots= document.querySelectorAll(".skill-slot");
+
+/* ===== 抽選ロジック ===== */
+function randExcept(list, exceptSet){
+  let choice;
+  do{ choice=list[Math.floor(Math.random()*list.length)]; }while(exceptSet.has(choice));
+  return choice;
+}
+
+/* --- food reroll --- */
+rollBtns.forEach(btn=>{
   btn.addEventListener("click",()=>{
-    const type=btn.dataset.type;
-    const idx = Number(btn.dataset.idx);
-    if(type==="food"){
-      const slot = document.querySelectorAll(".food-slot img")[idx];
-      const prev = slot.dataset.name||"";
-      let choice;
-      do{ choice=FOODS[Math.floor(Math.random()*FOODS.length)]; }while(choice.name===prev);
-      slot.src=choice.img; slot.dataset.name=choice.name;
-    }else{
-      const span=document.querySelectorAll(".skill-slot span")[idx];
-      const prev=span.textContent;
-      let next;
-      do{ next=SKILLS[Math.floor(Math.random()*SKILLS.length)]; }while(next===prev);
-      span.textContent=next;
-    }
-    incrementSeed();
+    const idx = +btn.dataset.idx;
+    if(btn.dataset.type!=="food") return; // スキル用は別で処理
+    const prev = foodImgs[idx].dataset.name||"";
+    const choice = randExcept(FOODS.map(f=>f.name), new Set([prev]));
+    const obj = FOODS.find(f=>f.name===choice);
+    foodImgs[idx].src=obj.img; foodImgs[idx].dataset.name=obj.name;
+    foodNames[idx].textContent=obj.name;
+    incSeed();
+  });
+});
+
+/* --- skill reroll & 背景色付与 / 重複禁止 --- */
+function applySkill(slotIdx, skillName){
+  skillSpans[slotIdx].textContent=skillName;
+  skillSlots[slotIdx].classList.toggle("yellow", YELLOW_SKILLS.includes(skillName));
+  skillSlots[slotIdx].classList.toggle("blue",   BLUE_SKILLS.includes(skillName));
+  skillSlots[slotIdx].classList.remove("yellow","blue"); // まず外してから再付与
+  if(YELLOW_SKILLS.includes(skillName)) skillSlots[slotIdx].classList.add("yellow");
+  else if(BLUE_SKILLS.includes(skillName)) skillSlots[slotIdx].classList.add("blue");
+}
+
+rollBtns.forEach(btn=>{
+  if(btn.dataset.type!=="skill") return;
+  btn.addEventListener("click",()=>{
+    const idx = +btn.dataset.idx;
+    const used = new Set([...skillSpans].map(s=>s.textContent));
+    const prev = skillSpans[idx].textContent;
+    used.delete(prev); // その枠の現スキルは除外
+    const choice = randExcept(SKILLS, used);
+    applySkill(idx, choice);
+    incSeed();
   });
 });
 
@@ -62,7 +92,13 @@ document.querySelectorAll(".roll-btn").forEach(btn=>{
 let currentFoodIdx=0;
 document.querySelectorAll(".food-select").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    currentFoodIdx = Number(btn.dataset.idx);
+    currentFoodIdx=+btn.dataset.idx;
+    openFoodModal();
+  });
+});
+editBtns.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    currentFoodIdx=+btn.dataset.idx;
     openFoodModal();
   });
 });
@@ -73,13 +109,13 @@ function openFoodModal(){
     ob.className="option-btn";
     ob.textContent=f.name;
     ob.addEventListener("click",()=>{
-      const slotImg=document.querySelectorAll(".food-slot img")[currentFoodIdx];
-      slotImg.src=f.img; slotImg.dataset.name=f.name;
-      closeModal();
+      foodImgs[currentFoodIdx].src=f.img;
+      foodImgs[currentFoodIdx].dataset.name=f.name;
+      foodNames[currentFoodIdx].textContent=f.name;
+      modal.classList.remove("show");
     });
     optionGrid.appendChild(ob);
   });
-  modalTitle.textContent="食材を選択";
   modal.classList.add("show");
 }
 function closeModal(){ modal.classList.remove("show"); }
@@ -88,19 +124,16 @@ modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
 
 /* ===== Reset & Share ===== */
 document.getElementById("reset-btn").addEventListener("click",()=>{
-  document.querySelectorAll(".food-slot img").forEach(i=>{ i.src=""; i.dataset.name=""; });
-  document.querySelectorAll(".skill-slot span").forEach(s=>s.textContent="");
+  foodImgs.forEach(i=>{ i.src=""; i.dataset.name=""; });
+  foodNames.forEach(p=>p.textContent="");
+  skillSpans.forEach(s=>s.textContent="");
+  skillSlots.forEach(sl=>sl.classList.remove("yellow","blue"));
   seedCount=0; seedCountEl.value=0;
 });
-
 document.getElementById("share-btn").addEventListener("click",()=>{
-  const foods=[...document.querySelectorAll(".food-slot img")].map(i=>i.dataset.name||"―");
-  const skills=[...document.querySelectorAll(".skill-slot span")].map(s=>s.textContent||"―");
+  const foods=[...foodImgs].map(i=>i.dataset.name||"―");
+  const skills=[...skillSpans].map(s=>s.textContent||"―");
   const text=`【ひらめきのたねシュミレーター】\n使用回数：${seedCount}\n\n🧄食材\n1:${foods[0]} 2:${foods[1]} 3:${foods[2]}\n\n🔧サブスキル\n10:${skills[0]}\n25:${skills[1]}\n50:${skills[2]}\n75:${skills[3]}\n100:${skills[4]}\n`;
-  if(navigator.share){
-    navigator.share({title:"ひらめきのたねシュミレーター",text})
-      .catch(()=>showToast("共有をキャンセルしました"));
-  }else{
-    navigator.clipboard?.writeText(text).then(()=>showToast("内容をコピーしました！"));
-  }
+  if(navigator.share){ navigator.share({title:"ひらめきのたねシュミレーター",text}).catch(()=>{}); }
+  else{ navigator.clipboard?.writeText(text).then(()=>showToast("内容をコピーしました！")); }
 });
