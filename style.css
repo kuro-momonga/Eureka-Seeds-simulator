@@ -103,7 +103,7 @@ button.sec{background:#e0e0e0}
 h1 .sub{
   display:block;
   font-size:0.95rem;
-  margin:0.12rem 0 0.8rem;   /* ← 下に 1 行分 (約 0.8rem) の余白 */
+  margin:0.12rem 0 1.3rem;   /* ← 下に 1 行分 (約 1.3rem) の余白 */
 }
 
 /* ② + ③ ─ 食材名を上・サイズアップ、画像も少し拡大 */
