@@ -8,6 +8,8 @@ h1 .sub{display:block;font-size:0.95rem;margin-top:0.12rem}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:0.85rem 0 0.32rem}
 h2{font-size:1.04rem}
 
+.section-title .section-edit{margin-left:auto;}  /* 右端に押し出す */
+
 /* --- 個別編集ボタン（角丸・水色） --- */
 .section-edit{
   border:none;
@@ -21,6 +23,7 @@ h2{font-size:1.04rem}
   gap:0.25rem;               /* テキストと✎の間 */
   cursor:pointer;
   line-height:1;
+    flex:0 0 auto;     /* 幅はコンテンツ依存 & 伸び縮みしない */
 }
 .section-edit:active{transform:scale(0.96);}
 
