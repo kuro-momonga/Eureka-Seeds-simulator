@@ -186,6 +186,10 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
   const btnRow = clone.querySelector(".btn-row");
   if(btnRow) btnRow.style.display = "none";
 
+/* 個別編集ボタン & 抽選ボタンを非表示 */
+ clone.querySelectorAll(".section-edit, .roll-btn")
+      .forEach(el => el.style.display = "none");
+  
   /* 余白 & 背景を付与 */
   clone.style.padding   = "48px 24px";
   clone.style.background= "#fffaf0";
