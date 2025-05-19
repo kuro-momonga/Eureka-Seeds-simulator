@@ -174,7 +174,7 @@ document.getElementById("share-btn").onclick = async () =>{
 たね使用回数は…${n}回！
 
 シュミレーターはこちら↓
-https://kurosuramatpagi.github.io/Eureka-Seeds-simulator/
+https://kuro-momonga.github.io/Eureka-Seeds-simulator/
 
 #ひらめきのたねシュミレーター`;
 
