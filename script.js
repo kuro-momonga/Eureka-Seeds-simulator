@@ -261,5 +261,3 @@ https://kuro-momonga.github.io/Eureka-Seeds-simulator/
     lastTouchEnd = now;
   }, {passive:false});
 })();
-
-  
