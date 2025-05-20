@@ -43,6 +43,8 @@ const foodNames  = [...document.querySelectorAll(".food-slot p")];
 const skillSpans = [...document.querySelectorAll(".skill-slot span")];
 const skillSlots = [...document.querySelectorAll(".skill-slot")];
 
+const undoBtn    = document.getElementById("undo-btn");   /* ← 追加 */
+
 /* 手動選択フラグ */
 const foodManual  = [false,false,false];
 const skillManual = [false,false,false,false,false];
@@ -50,6 +52,39 @@ const skillManual = [false,false,false,false,false];
 let seedCount = 0;
 let editType  = "food";
 let currentIdx= 0;
+
+/* ===== undo 用：直前 1 手だけ保持 ================= */
+let lastState = null;
+function saveState(){
+  lastState = {
+    foodNames : foodNames.map(p => p.textContent),
+    foodSrcs  : foodImgs .map(img => img.src),
+    skillNames: skillSpans.map(s => s.textContent),
+    foodMan   : [...foodManual],
+    skillMan  : [...skillManual]
+  };
+  undoBtn.disabled = false;
+}
+function undo(){
+  if(!lastState) return;
+
+  lastState.foodNames.forEach((t,i)=>{
+    if(t){
+      const obj = FOODS.find(f=>f.name===t.replace(/\s*✎$/,""));
+      setFood(i,obj,lastState.foodMan[i]);
+    }else{
+      setFood(i,{img:"",name:""},false);
+    }
+  });
+  lastState.skillNames.forEach((t,i)=>
+    setSkill(i,t,lastState.skillMan[i])
+  );
+
+  lastState = null;            // 1 段限定
+  undoBtn.disabled = true;
+}
+undoBtn.onclick = undo;
+undoBtn.disabled = true;        // 初期は無効
 
 /* ========== helpers ========== */
 const showToast = msg=>{
@@ -84,6 +119,8 @@ function setSkill(idx,name,manual){
 /* ========== roll buttons ========== */
 document.querySelectorAll(".roll-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
+    saveState();                 /* ← ロール前に必ず保存 */
+
     const type=btn.dataset.type,idx=+btn.dataset.idx;
 
     if(type==="food"){
@@ -175,8 +212,12 @@ document.getElementById("reset-btn").onclick=()=>{
   skillSlots.forEach(sl=>sl.classList.remove("yellow","blue"));
   foodManual.fill(false);
   skillManual.fill(false);
+  lastState = null;            /* ← undo クリア */
+  undoBtn.disabled = true;
   seedCount=0; seedCountEl.value=0;
 };
+
+
 
 /* ========== share (変更なし) ========== */
 /* ここ以降はあなたのファイルの share 関数と iOS ズーム対策をそのまま残してください */
